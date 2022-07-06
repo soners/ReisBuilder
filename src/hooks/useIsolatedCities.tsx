@@ -6,16 +6,13 @@ import {useState} from "react";
 
 interface UseIsolatedCitiesOutputs {
     findIsolatedCities: (capital: Location) => Location[];
-    done: boolean;
     isolatedCities: Location[];
 }
 
 export default function useIsolatedCities(map: CityMap): UseIsolatedCitiesOutputs {
-    const [done, setDone] = useState(false);
     const [isolatedCities, setIsolatedCities] = useState<Location[]>([]);
 
     function findIsolatedCities(capital: Location): Location[] {
-        setDone(false);
         setIsolatedCities([]);
         const visited = map.map(row => {
             return row.map(() => {
@@ -57,10 +54,9 @@ export default function useIsolatedCities(map: CityMap): UseIsolatedCitiesOutput
             })
         });
         setIsolatedCities(unvisited);
-        setDone(true);
 
         return unvisited;
     }
 
-    return {findIsolatedCities, done, isolatedCities}
+    return {findIsolatedCities, isolatedCities}
 }

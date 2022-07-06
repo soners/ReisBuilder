@@ -15,7 +15,7 @@ interface SourceNode {
 }
 
 interface UseTrainLinesOutputs {
-    findTrainLines: (outerCities: Location[], capital: Location) => TrainLineResult[];
+    findTrainLines: (outerCities: Location[], capital: Location) => void;
     done: boolean;
     trainLines: TrainLineResult[];
 }
@@ -82,16 +82,22 @@ export default function useTrainLines(map: CityMap): UseTrainLinesOutputs {
         return path;
     }
 
-    function findTrainLines(outerCities: Location[], capital: Location): TrainLineResult[] {
+    function findTrainLines(outerCities: Location[], capital: Location): void {
         const paths: TrainLineResult[] = []
+        setDone(false);
         for (let i = 0; i < outerCities.length; i++) {
-            const start = outerCities[i];
-            const path = findPath(start, capital);
+            setTimeout(() => {
+                const start = outerCities[i];
+                const path = findPath(start, capital);
 
-            paths.push({start, path});
+                paths.push({start, path});
+
+                if (i === outerCities.length - 1) {
+                    setDone(true);
+                }
+                setTrainLines([...paths])
+            }, 500 * i);
         }
-
-        return paths;
     }
 
     return {findTrainLines, done, trainLines}

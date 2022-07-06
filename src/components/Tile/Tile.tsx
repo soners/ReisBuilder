@@ -54,8 +54,8 @@ export const tiles: {
         color: '#d7ba3c',
         backgroundColor: '#1b2791'
     },
-    [CityTileEnum.CENTRAAL]: {
-        type: CityTileEnum.CENTRAAL,
+    [CityTileEnum.CENTRAL_STATION]: {
+        type: CityTileEnum.CENTRAL_STATION,
         icon: <LocationCityRoundedIcon className={"icon"} sx={{color: '#6412b0'}}/>,
         color: '#6412b0',
         backgroundColor: '#fffacd'

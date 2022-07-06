@@ -7,5 +7,11 @@ export interface Location {
 
 
 export const isCity = (tile: CityTileEnum) => {
-    return [CityTileEnum.CITY, CityTileEnum.UNVISITED_CITY, CityTileEnum.CAPITAL, CityTileEnum.OUTER_CITY].includes(tile);
+    return [
+        CityTileEnum.CITY,
+        CityTileEnum.UNVISITED_CITY,
+        CityTileEnum.CAPITAL,
+        CityTileEnum.OUTER_CITY,
+        CityTileEnum.CENTRAL_STATION
+    ].includes(tile);
 }

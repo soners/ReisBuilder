@@ -2,13 +2,13 @@ import {CityMap} from "../models/CityMap";
 import {isCity, Location} from "../models/Location";
 import {useState} from "react";
 
-interface FindOuterCities {
+interface UseOuterCitiesOutputs {
     outerCities: Location[];
     done: boolean;
     findOuterCities: () => void;
 }
 
-export default function useOuterCities(map: CityMap): FindOuterCities {
+export default function useOuterCities(map: CityMap): UseOuterCitiesOutputs {
     const [outerCities, setOuterCities] = useState<Location[]>([]);
     const [done, setDone] = useState(false);
 
@@ -105,7 +105,7 @@ export default function useOuterCities(map: CityMap): FindOuterCities {
                     setDone(true);
                 }
                 setOuterCities([...hullCities]);
-            }, 200 * i);
+            }, 20 * i);
         }
     }
 
