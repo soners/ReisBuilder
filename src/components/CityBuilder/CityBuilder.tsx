@@ -8,7 +8,6 @@ import {useCityMap} from "../../hooks/useCityMap";
 import useTools from "../../hooks/useTools";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material';
 import Tutorial from "../Tutorial/Tutorial";
-import ConstructionIcon from "@mui/icons-material/Construction";
 
 const rows = 20;
 const cols = 30;
@@ -16,7 +15,7 @@ const cols = 30;
 export default function CityBuilder() {
     const [editMode, setEditMode] = useState(false);
     const [showTutorial, setShowTutorial] = useState(true);
-    const {map, clearMap, applyTool, constructRailLine} = useCityMap({rows, cols});
+    const {map, clearMap, applyTool, isConstructing, constructRailLine} = useCityMap({rows, cols});
     const {tool, pickTool} = useTools({map, showTutorial: () => setShowTutorial(true), clearMap});
 
     const handleClose = () => {
@@ -61,6 +60,7 @@ export default function CityBuilder() {
                         <Toolset
                             tool={tool}
                             pickTool={pickTool}
+                            isConstructing={isConstructing}
                             construct={constructRailLine}
                         />
                     </div>

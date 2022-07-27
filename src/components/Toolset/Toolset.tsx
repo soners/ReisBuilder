@@ -8,6 +8,7 @@ import FenceIcon from '@mui/icons-material/Fence';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {CityTileEnum} from "../../models/CityTileEnum";
 import Tool from "../Tool/Tool";
 import {Button} from "@mui/material";
@@ -15,6 +16,7 @@ import {Button} from "@mui/material";
 export interface ToolsetProps {
     tool: CityTileEnum;
     pickTool: (tool: CityTileEnum) => void;
+    isConstructing: boolean;
     construct: () => void;
 }
 
@@ -78,7 +80,7 @@ function Tools({activeTool, pickTool}: ToolsProps) {
     )
 }
 
-export default function Toolset({tool, pickTool, construct}: ToolsetProps) {
+export default function Toolset({tool, pickTool, isConstructing, construct}: ToolsetProps) {
     return (
         <>
             <Tools activeTool={tool} pickTool={pickTool}/>
@@ -88,7 +90,11 @@ export default function Toolset({tool, pickTool, construct}: ToolsetProps) {
                 color={"primary"} sx={{
                 borderRadius: '25px',
             }}
-                endIcon={<ConstructionIcon fontSize={"medium"}/>}
+                endIcon={
+                    isConstructing ?
+                        <SettingsIcon className={"settings-icon"} fontSize={"medium"}/> :
+                        <ConstructionIcon fontSize={"medium"}/>
+                }
             >
                 Construct
             </Button>
