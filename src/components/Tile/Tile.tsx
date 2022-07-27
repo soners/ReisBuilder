@@ -72,8 +72,8 @@ export const tiles: {
         color: '#43B3CC',
         backgroundColor: '#fffacd'
     },
-    [CityTileEnum.GRASS]: {
-        type: CityTileEnum.GRASS,
+    [CityTileEnum.TREE]: {
+        type: CityTileEnum.TREE,
         icon: <ParkIcon className={"icon"} sx={{color: '#2E8B57'}}/>,
         color: '#2E8B57',
         backgroundColor: '#fffacd'

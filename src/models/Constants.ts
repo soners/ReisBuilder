@@ -20,11 +20,12 @@ const possibleCrossExtended = [
 
 export const possibleMove = possibleCross;
 
-export type PurifyMapping = {
+export type RestoreMapping = {
     [type in CityTileEnum]: CityTileEnum;
 };
 
-export const purifyMapping: PurifyMapping = {
+export const restoreMapping: RestoreMapping = {
+    [CityTileEnum.TUTORIAL]: CityTileEnum.TUTORIAL,
     [CityTileEnum.EMPTY]: CityTileEnum.EMPTY,
     [CityTileEnum.CITY]: CityTileEnum.CITY,
     [CityTileEnum.UNVISITED_CITY]: CityTileEnum.CITY,
@@ -35,10 +36,11 @@ export const purifyMapping: PurifyMapping = {
     [CityTileEnum.CLEAR]: CityTileEnum.CLEAR,
     [CityTileEnum.WATER]: CityTileEnum.WATER,
     [CityTileEnum.WALL]: CityTileEnum.WALL,
-    [CityTileEnum.GRASS]: CityTileEnum.GRASS
+    [CityTileEnum.TREE]: CityTileEnum.TREE
 }
 
-export const purifyMappingForOuterCities: PurifyMapping = {
+export const restoreMappingForOuterCities: RestoreMapping = {
+    [CityTileEnum.TUTORIAL]: CityTileEnum.TUTORIAL,
     [CityTileEnum.EMPTY]: CityTileEnum.EMPTY,
     [CityTileEnum.CITY]: CityTileEnum.CITY,
     [CityTileEnum.UNVISITED_CITY]: CityTileEnum.CITY,
@@ -49,5 +51,20 @@ export const purifyMappingForOuterCities: PurifyMapping = {
     [CityTileEnum.CLEAR]: CityTileEnum.CLEAR,
     [CityTileEnum.WATER]: CityTileEnum.WATER,
     [CityTileEnum.WALL]: CityTileEnum.WALL,
-    [CityTileEnum.GRASS]: CityTileEnum.GRASS
+    [CityTileEnum.TREE]: CityTileEnum.TREE
+}
+
+export const restoreMappingForTrainLines: RestoreMapping = {
+    [CityTileEnum.TUTORIAL]: CityTileEnum.TUTORIAL,
+    [CityTileEnum.EMPTY]: CityTileEnum.EMPTY,
+    [CityTileEnum.CITY]: CityTileEnum.CITY,
+    [CityTileEnum.UNVISITED_CITY]: CityTileEnum.CITY,
+    [CityTileEnum.CAPITAL]: CityTileEnum.CAPITAL,
+    [CityTileEnum.OUTER_CITY]: CityTileEnum.OUTER_CITY,
+    [CityTileEnum.RAIL]: CityTileEnum.EMPTY,
+    [CityTileEnum.CENTRAL_STATION]: CityTileEnum.CITY,
+    [CityTileEnum.CLEAR]: CityTileEnum.CLEAR,
+    [CityTileEnum.WATER]: CityTileEnum.WATER,
+    [CityTileEnum.WALL]: CityTileEnum.WALL,
+    [CityTileEnum.TREE]: CityTileEnum.TREE
 }

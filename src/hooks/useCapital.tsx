@@ -5,10 +5,15 @@ import {useState} from "react";
 interface UseCapitalOutputs {
     findCapital: () => Location;
     capital?: Location;
+    reset: () => void;
 }
 
 export default function useCapital(map: CityMap): UseCapitalOutputs {
     const [capital, setCapital] = useState<Location>();
+
+    function reset() {
+        setCapital(undefined);
+    }
 
     function findCapital(): Location {
         const locations: Location[] = [];
@@ -44,5 +49,5 @@ export default function useCapital(map: CityMap): UseCapitalOutputs {
         return candidate
     }
 
-    return {findCapital, capital}
+    return {findCapital, reset, capital}
 }

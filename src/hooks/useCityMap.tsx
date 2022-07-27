@@ -1,12 +1,17 @@
 import {useEffect, useState} from "react";
 import {CityTileEnum} from "../models/CityTileEnum";
-import {Location} from "../models/Location";
+import {isCity, Location} from "../models/Location";
 import {CityMap} from "../models/CityMap";
 import useOuterCities from "./useOuterCities";
 import useIsolatedCities from "./useIsolatedCities";
 import useCapital from "./useCapital";
 import useTrainLines from "./useTrainLines";
-import {purifyMapping, PurifyMapping, purifyMappingForOuterCities} from "../models/Constants";
+import {
+    restoreMapping,
+    RestoreMapping,
+    restoreMappingForOuterCities,
+    restoreMappingForTrainLines
+} from "../models/Constants";
 
 export interface UseCityMapProps {
     rows: number;
@@ -24,8 +29,8 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
     const [map, setMap] = useState<CityMap>([]);
     const {findCapital, capital} = useCapital(map);
     const {findIsolatedCities} = useIsolatedCities(map);
-    const {findOuterCities, done: outerCitiesFound, outerCities} = useOuterCities(map);
-    const {findTrainLines, done: trainLinesFound, trainLines} = useTrainLines(map);
+    const {findOuterCities, outerCities, done: outerCitiesFound, reset: resetOuterCities} = useOuterCities(map);
+    const {findTrainLines, trainLines, done: trainLinesFound, reset: resetTrainLines} = useTrainLines(map);
 
     useEffect(() => {
         clearMap();
@@ -33,13 +38,13 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
 
     useEffect(() => {
         if (outerCities.length) {
-            const pureMap = getPurifiedMap(map, purifyMapping);
+            const pureMap = getRestoredMap(map, restoreMapping);
             for (const outerCity of outerCities) {
                 pureMap[outerCity.x][outerCity.y] = CityTileEnum.OUTER_CITY;
             }
             setMap(pureMap);
         }
-        if (outerCitiesFound && capital) {
+        if (outerCitiesFound && outerCities.length && capital) {
             findTrainLines(outerCities, capital);
         }
     }, [outerCities, outerCitiesFound]);
@@ -48,25 +53,16 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
         if (!trainLinesFound && !trainLines.length) {
             return;
         }
-        console.log('sss');
-        const newMap: CityMap = [];
-        if (trainLines.length) {
-            for (let i = 0; i < rows; i++) {
-                const row = [];
-                for (let j = 0; j < cols; j++) {
-                    row.push(map[i][j]);
-                }
-                newMap.push(row);
-            }
-        }
+        const newMap = getRestoredMap(map, restoreMappingForTrainLines)
         for (const {start, path} of trainLines) {
             for (const p of path) {
-                newMap[p.x][p.y] = map[p.x][p.y] === CityTileEnum.CITY ? CityTileEnum.CENTRAL_STATION : CityTileEnum.RAIL;
+                newMap[p.x][p.y] = isCity(map[p.x][p.y]) ? CityTileEnum.CENTRAL_STATION : CityTileEnum.RAIL;
             }
             newMap[start.x][start.y] = CityTileEnum.OUTER_CITY;
-        }
-        if (trainLinesFound && capital) {
-            newMap[capital.x][capital.y] = CityTileEnum.CAPITAL;
+
+            if (capital) {
+                newMap[capital.x][capital.y] = CityTileEnum.CAPITAL;
+            }
         }
         setMap(newMap);
     }, [trainLines, trainLinesFound])
@@ -83,12 +79,12 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
         setMap(newMap);
     }
 
-    const getPurifiedMap = (map: CityMap, purifyMapping: PurifyMapping) => {
+    const getRestoredMap = (map: CityMap, restoreMapping: RestoreMapping) => {
         const newMap: CityMap = [];
         for (let i = 0; i < rows; i++) {
             const row = [];
             for (let j = 0; j < cols; j++) {
-                row.push(purifyMapping[map[i][j]])
+                row.push(restoreMapping[map[i][j]])
             }
             newMap.push(row);
         }
@@ -116,8 +112,10 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
     }
 
     function constructRailLine() {
+        resetTrainLines();
+        resetOuterCities();
         const capital = findCapital();
-        const pureMap = getPurifiedMap(map, purifyMapping);
+        const pureMap = getRestoredMap(map, restoreMapping);
         pureMap[capital.x][capital.y] = CityTileEnum.CAPITAL;
 
         const isolatedCities = findIsolatedCities(capital);
@@ -125,6 +123,9 @@ export function useCityMap({rows, cols}: UseCityMapProps): UseCityMapOutputs {
             pureMap[city.x][city.y] = CityTileEnum.UNVISITED_CITY;
         })
         setMap(pureMap);
+        if (!isolatedCities.length) {
+            findOuterCities();
+        }
     }
 
     return {map, applyTool, constructRailLine, clearMap};

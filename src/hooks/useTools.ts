@@ -4,29 +4,27 @@ import {CityTileEnum} from "../models/CityTileEnum";
 interface UseToolsProps {
     map: CityTileEnum[][];
     clearMap: () => void;
+    showTutorial: () => void;
 }
 
 interface UseToolsOutputs {
     tool: CityTileEnum;
     pickTool: (tool: CityTileEnum) => void;
-    applyTool: () => void;
 }
 
-export default function useTools({ map, clearMap }: UseToolsProps): UseToolsOutputs {
+export default function useTools({showTutorial, clearMap}: UseToolsProps): UseToolsOutputs {
     const [tool, setTool] = useState(CityTileEnum.EMPTY);
-
-    function applyTool() {
-
-    }
 
     function pickTool(tool: CityTileEnum) {
         if (tool === CityTileEnum.CLEAR) {
             clearMap();
             setTool(CityTileEnum.EMPTY);
+        } else if (tool === CityTileEnum.TUTORIAL) {
+            showTutorial();
         } else {
             setTool(tool);
         }
     }
 
-    return { tool, applyTool, pickTool }
+    return {tool, pickTool}
 }

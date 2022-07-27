@@ -7,9 +7,9 @@ import ParkIcon from '@mui/icons-material/Park';
 import FenceIcon from '@mui/icons-material/Fence';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {CityTileEnum} from "../../models/CityTileEnum";
 import Tool from "../Tool/Tool";
-import {ITool} from "../../models/Tool";
 import {Button} from "@mui/material";
 
 export interface ToolsetProps {
@@ -18,59 +18,60 @@ export interface ToolsetProps {
     construct: () => void;
 }
 
-
 interface ToolsProps {
     activeTool: CityTileEnum;
     pickTool: (tool: CityTileEnum) => void;
 }
 
-export const tools: {
-    [type: number]: ITool
-} = {
-    [CityTileEnum.EMPTY]: {
+const tools = [
+    {
+        type: CityTileEnum.TUTORIAL,
+        icon: <QuestionMarkIcon/>,
+        color: '#2E8B57',
+        backgroundColor: '#fffacd'
+    },
+    {
         type: CityTileEnum.EMPTY,
         icon: <AutoFixNormalIcon/>,
         color: '#e1b100',
         backgroundColor: '#fffacd'
     },
-    [CityTileEnum.WALL]: {
-        type: CityTileEnum.WALL,
-        icon: <FenceIcon/>,
-        color: '#581886',
+    {
+        type: CityTileEnum.CLEAR,
+        icon: <DeleteIcon/>,
+        color: '#2E8B57',
         backgroundColor: '#fffacd'
     },
-    [CityTileEnum.CITY]: {
+    {
         type: CityTileEnum.CITY,
         icon: <LocationCityRoundedIcon/>,
         color: '#dc2424',
         backgroundColor: '#fffacd'
     },
-    [CityTileEnum.WATER]: {
+    {
+        type: CityTileEnum.WALL,
+        icon: <FenceIcon/>,
+        color: '#581886',
+        backgroundColor: '#fffacd'
+    },
+    {
         type: CityTileEnum.WATER,
         icon: <WaterIcon/>,
         color: '#43B3CC',
         backgroundColor: '#fffacd'
     },
-    [CityTileEnum.GRASS]: {
-        type: CityTileEnum.GRASS,
+    {
+        type: CityTileEnum.TREE,
         icon: <ParkIcon/>,
         color: '#2E8B57',
         backgroundColor: '#fffacd'
-    },
-    [CityTileEnum.CLEAR]: {
-        type: CityTileEnum.CLEAR,
-        icon: <DeleteIcon/>,
-        color: '#2E8B57',
-        backgroundColor: '#fffacd'
     }
-}
-
-export const allTools: ITool[] = Object.values(tools);
+]
 
 function Tools({activeTool, pickTool}: ToolsProps) {
     return (
         <>{
-            allTools.map(tool => (
+            tools.map(tool => (
                 <Tool key={tool.type} tool={tool} isActive={activeTool === tool.type} pickTool={pickTool}/>
             ))
         }</>

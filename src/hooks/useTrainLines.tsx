@@ -16,8 +16,9 @@ interface SourceNode {
 
 interface UseTrainLinesOutputs {
     findTrainLines: (outerCities: Location[], capital: Location) => void;
-    done: boolean;
     trainLines: TrainLineResult[];
+    reset: () => void;
+    done: boolean;
 }
 
 export default function useTrainLines(map: CityMap): UseTrainLinesOutputs {
@@ -46,7 +47,7 @@ export default function useTrainLines(map: CityMap): UseTrainLinesOutputs {
                     return q;
                 }
 
-                const unvisitable = [CityTileEnum.CITY, CityTileEnum.WALL, CityTileEnum.WATER, CityTileEnum.GRASS]
+                const unvisitable = [CityTileEnum.WALL, CityTileEnum.WATER, CityTileEnum.TREE]
                 if (
                     x < 0 || x >= map.length ||
                     y < 0 || y >= map[0].length ||
@@ -82,9 +83,13 @@ export default function useTrainLines(map: CityMap): UseTrainLinesOutputs {
         return path;
     }
 
+    function reset() {
+        setDone(false);
+        setTrainLines([]);
+    }
+
     function findTrainLines(outerCities: Location[], capital: Location): void {
         const paths: TrainLineResult[] = []
-        setDone(false);
         for (let i = 0; i < outerCities.length; i++) {
             setTimeout(() => {
                 const start = outerCities[i];
@@ -100,5 +105,5 @@ export default function useTrainLines(map: CityMap): UseTrainLinesOutputs {
         }
     }
 
-    return {findTrainLines, done, trainLines}
+    return {findTrainLines, reset, done, trainLines}
 }

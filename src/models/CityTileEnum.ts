@@ -1,4 +1,5 @@
 export enum CityTileEnum {
+    TUTORIAL,
     EMPTY,
     CITY,
     UNVISITED_CITY,
@@ -9,5 +10,5 @@ export enum CityTileEnum {
     CLEAR,
     WATER,
     WALL,
-    GRASS
+    TREE
 }

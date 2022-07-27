@@ -7,10 +7,15 @@ import {useState} from "react";
 interface UseIsolatedCitiesOutputs {
     findIsolatedCities: (capital: Location) => Location[];
     isolatedCities: Location[];
+    reset: () => void;
 }
 
 export default function useIsolatedCities(map: CityMap): UseIsolatedCitiesOutputs {
     const [isolatedCities, setIsolatedCities] = useState<Location[]>([]);
+
+    function reset() {
+        setIsolatedCities([]);
+    }
 
     function findIsolatedCities(capital: Location): Location[] {
         setIsolatedCities([]);
@@ -26,7 +31,7 @@ export default function useIsolatedCities(map: CityMap): UseIsolatedCitiesOutput
                 const y = location.y + j;
                 const newLocation = {x, y};
 
-                const unvisitable = [CityTileEnum.WALL, CityTileEnum.WATER, CityTileEnum.GRASS]
+                const unvisitable = [CityTileEnum.WALL, CityTileEnum.WATER, CityTileEnum.TREE]
                 if (
                     x < 0 || x >= map.length ||
                     y < 0 || y >= map[0].length ||
@@ -58,5 +63,5 @@ export default function useIsolatedCities(map: CityMap): UseIsolatedCitiesOutput
         return unvisited;
     }
 
-    return {findIsolatedCities, isolatedCities}
+    return {findIsolatedCities, reset, isolatedCities}
 }

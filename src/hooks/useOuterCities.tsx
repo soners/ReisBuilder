@@ -3,9 +3,10 @@ import {isCity, Location} from "../models/Location";
 import {useState} from "react";
 
 interface UseOuterCitiesOutputs {
-    outerCities: Location[];
-    done: boolean;
     findOuterCities: () => void;
+    outerCities: Location[];
+    reset: () => void;
+    done: boolean;
 }
 
 export default function useOuterCities(map: CityMap): UseOuterCitiesOutputs {
@@ -99,14 +100,17 @@ export default function useOuterCities(map: CityMap): UseOuterCitiesOutputs {
                 }
                 hullCities.push(sortedCities[i]);
 
-                console.log(i, m, hullCities);
                 if (i === m - 1) {
-                    console.log('done')
                     setDone(true);
                 }
                 setOuterCities([...hullCities]);
-            }, 20 * i);
+            }, 200 * i);
         }
+    }
+
+    function reset() {
+        setDone(false);
+        setOuterCities([]);
     }
 
     function findOuterCities() {
@@ -123,5 +127,5 @@ export default function useOuterCities(map: CityMap): UseOuterCitiesOutputs {
         return findConvexHull(cities)
     }
 
-    return {findOuterCities, done, outerCities}
+    return {findOuterCities, reset, done, outerCities}
 }
