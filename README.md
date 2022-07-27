@@ -2,11 +2,13 @@
 
 This project was created with React, for fun 
 
-### What is ReisBuilder?
+## What is ReisBuilder?
 ReisBuilder is a React application that finds sub-optimal paths between locations.
 
+See below for an example video.
 
-### How does it work?
+
+## How does it work?
 - ReisBuilder provides a toolset to;
   - Insert households
   - Insert obstacles (water, forest, fence)
@@ -19,7 +21,7 @@ ReisBuilder is a React application that finds sub-optimal paths between location
   - Construct train lines for each main city pairs.
 
 
-### Run / Play
+## Run / Play
 `Online playground`
 
 https://reisbuilder.web.app
@@ -28,4 +30,7 @@ https://reisbuilder.web.app
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+
+![ReisBuilder](https://user-images.githubusercontent.com/36479139/181334416-a98f8aa0-e32f-4cc5-a66e-0872bf9eea20.gif)
 
