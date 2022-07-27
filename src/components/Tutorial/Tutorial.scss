@@ -1,0 +1,28 @@
+.tutorial-icon {
+  margin: 10px;
+}
+
+.stepper {
+  margin-top: 10px;
+
+  .step {
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+    .text {
+      margin-left: 10px
+    }
+  }
+
+  .MuiStepConnector-line {
+    margin-left: 10px
+  }
+}
+
+.tutorial-step {
+  cursor: pointer;
+}
+
+.tool-tutorials {
+  margin-top: 10px
+}
